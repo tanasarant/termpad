@@ -1,0 +1,28 @@
+# TermPad — Markdown-capable terminal text editor
+# https://github.com/<your-username>/termpad
+
+# Core TUI framework.
+# TermPad is tested against textual 8.2.8. We allow minor/patch updates
+# within the 8.x series but pin to a major version, because the code
+# relies on a few internal APIs (see SPEC.md §11 "Compatibility Notes")
+# that can break across major releases without a deprecation cycle:
+#
+#   - self._bindings.key_to_bindings   (BindingsMap internals)
+#   - event.pane.id on TabActivated    (was event.tab.id pre-8.x)
+#   - MarkdownViewer.document property
+#   - Binding(priority=True) semantics
+#
+# When upgrading to textual 9.x (or later), re-run the test suite under
+# scripts/ first and follow the migration notes in SPEC.md §11.
+textual>=8.2.0,<9.0.0
+
+# Cross-application clipboard integration.
+# Used by EditorTextArea.action_copy / action_cut / action_paste to sync
+# with the X11 / Wayland system clipboard. If absent, TermPad falls back
+# to OSC 52 (which only works in terminals that support it).
+#
+# Linux users additionally need one of:
+#   sudo apt-get install xclip        # X11
+#   sudo apt-get install xsel         # X11 (alternative)
+#   sudo apt-get install wl-clipboard # Wayland
+pyperclip>=1.8.0 
